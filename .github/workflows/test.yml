@@ -3,12 +3,12 @@ on:
   pull_request:
 
 jobs:
-  test: # make sure the action works on a clean machine without building
+  test: # test the action locally
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: ./
         with:
-          repo-name: create-repo-test3
+          repo-name: create-repo-test
           github-token: '${{ secrets.GITHUB_TOKEN }}'
           # repo-org: acme

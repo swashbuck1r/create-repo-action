@@ -30,4 +30,4 @@ package: ## Build and package the distribution
 publish-dist: package ## Build and publish the distribution
 	git add dist
 	git commit -a -m "publish release: $(VERSION)"
-	git push origin $(VERSION)
+	git push origin HEAD:$(VERSION)

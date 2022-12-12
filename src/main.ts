@@ -1,16 +1,40 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+// import * as github from '@actions/github'
+
+import axios from 'axios'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const targetOrgName = core.getInput('repo-org')
+    const targetRepoName = core.getInput('repo-name')
+    const ghToken = core.getInput('org-admin-token')
+    const createRepoData = JSON.stringify({
+      name: targetRepoName,
+      private: true,
+      visibility: 'private'
+    })
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const config = {
+      method: 'post',
+      url: `https://api.github.com/orgs/${targetOrgName}/repos`,
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+        Authorization: `token ${ghToken}`,
+        'Content-Type': 'application/json'
+      },
+      data: createRepoData
+    }
 
-    core.setOutput('time', new Date().toTimeString())
+    const {status} = await axios(config)
+    if (status === 200) {
+      console.info(
+        `Repo ${targetOrgName}/${targetRepoName} created successfully!`
+      )
+      core.setOutput(
+        'repo-url',
+        `https://github.com/${targetOrgName}/${targetRepoName}`
+      )
+    }
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

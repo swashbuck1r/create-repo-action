@@ -1,11 +1,22 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Create a repository'
+description: 'Creates a repository based on a template'
+author: 'Spike Washburn'
 inputs:
-  milliseconds: # change this
+  repo-org:
+    description: 'Organization name'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    default: ''
+  repo-name:
+    description: 'New repository name'
+    required: true
+    default: ''
+  org-admin-token:
+    description: 'Organization admin token with admin:org scope'
+    required: true
+    default: ''
+outputs:
+  repo-url:
+    description: 'URL of the created repository'
 runs:
   using: 'node16'
   main: 'dist/index.js'

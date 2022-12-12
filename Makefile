@@ -19,11 +19,15 @@ help: ## Display this help.
 
 .DEFAULT_GOAL := help
 
-##@ Dist
+##@ Build
+
+.PHONY: package
+package: ## Build and package the distribution
+	npm run build
+	npm run package
 
 .PHONY: publish-dist
-publish-dist: ## Build and publish the distribution
-	npm run package
+publish-dist: package ## Build and publish the distribution
 	git add dist
 	git commit -a -m "publish release: $(VERSION)"
 	git push origin $(VERSION)

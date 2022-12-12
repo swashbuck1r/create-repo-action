@@ -2,21 +2,19 @@ name: 'Create a repository'
 description: 'Creates a repository based on a template'
 author: 'Spike Washburn'
 inputs:
-  repo-org:
-    description: 'Organization name'
-    required: true
-    default: ''
   repo-name:
     description: 'New repository name'
     required: true
-    default: ''
-  org-admin-token:
-    description: 'Organization admin token with admin:org scope'
+  github-token:
+    description: 'Token with permission to create repositories'
     required: true
-    default: ''
+  repo-org:
+    description: 'Name of the organization the repository will be created in'
 outputs:
   repo-url:
     description: 'URL of the created repository'
+  git-url:
+    description: 'GIT url of the created repository'
 runs:
   using: 'node16'
   main: 'dist/index.js'
